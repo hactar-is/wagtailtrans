@@ -342,8 +342,9 @@ class TranslatableSiteRootPage(Page):
         :return: Http302 or Http404
 
         """
+        from wagtail_personalisation.utils import exclude_variants
         language = get_user_language(request)
-        candidates = TranslatablePage.objects.live().specific().child_of(self)
+        candidates = exclude_variants(TranslatablePage.objects.live().specific().child_of(self))
         try:
             translation = candidates.filter(language=language).get()
             return redirect(translation.url)
