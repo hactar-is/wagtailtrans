@@ -9,7 +9,7 @@ sys.path.append(os.path.join(PROJECT_DIR, 'src'))
 from wagtailtrans import get_version  # noqa isort:skip
 
 install_requires = [
-    'wagtail>=2.7,<2.11'
+    'wagtail>=2.7,<2.14'
 ]
 
 sandbox_require = [
