@@ -182,15 +182,15 @@ class TranslatablePage(Page):
         """
         super().move(target, pos, *args, **kwargs)
 
-        if get_wagtailtrans_setting('LANGUAGES_PER_SITE'):
-            site = self.get_site()
-            lang_settings = SiteLanguages.for_site(site)
-            is_default = lang_settings.default_language == self.language
-        else:
-            is_default = self.language.is_default
+        # if get_wagtailtrans_setting('LANGUAGES_PER_SITE'):
+        #     site = self.get_site()
+        #     lang_settings = SiteLanguages.for_site(site)
+        #     is_default = lang_settings.default_language == self.language
+        # else:
+        #     is_default = self.language.is_default
 
-        if not suppress_sync and get_wagtailtrans_setting('SYNC_TREE') and is_default:
-            self.move_translated_pages(canonical_target=target, pos=pos)
+        # if not suppress_sync and get_wagtailtrans_setting('SYNC_TREE') and is_default:
+        #     self.move_translated_pages(canonical_target=target, pos=pos)
 
     def move_translated_pages(self, canonical_target, pos=None):
         """Move only the translated pages of this instance (not self).
@@ -214,7 +214,7 @@ class TranslatablePage(Page):
 
             page.move(target=target, pos=pos, suppress_sync=True)
 
-    def get_translations(self, only_live=True, include_self=False):
+    def get_translations(self, only_live=True, include_self=False, inclusive=False):
         """Get all translations of this page.
 
         This page itself is not included in the result, all pages
@@ -227,7 +227,7 @@ class TranslatablePage(Page):
         canonical_page_id = self.canonical_page_id or self.pk
         translations = TranslatablePage.objects.filter(Q(canonical_page=canonical_page_id) | Q(pk=canonical_page_id))
 
-        if not include_self:
+        if not include_self and not inclusive:
             translations = translations.exclude(pk=self.pk)
 
         if only_live:
@@ -427,3 +427,10 @@ class SiteLanguages(BaseSetting):
     class Meta:
         verbose_name = _("Site languages")
         verbose_name_plural = _("Site languages")
+
+
+class BootstrapPage(Page):
+    page = models.OneToOneField(Page, on_delete=models.CASCADE, blank=True, null=True, related_name='+')
+
+    class Meta:
+        abstract = True
