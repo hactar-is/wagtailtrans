@@ -24,19 +24,19 @@ def _get_translations(page, homepage_fallback=True, include_self=True):
             available_languages.remove(page.language)
 
         page_translations = page.get_translations(only_live=True, include_self=include_self)
-        available_translations = {p.locale.language_code: p for p in page_translations}
+        available_translations = {p.language.code: p for p in page_translations}
 
     available_homepages = {}
     if homepage_fallback:
-        available_homepages = {p.locale.language_code: p for p in site.root_page.get_children().live().specific()}
+        available_homepages = {p.language.code: p for p in site.root_page.get_children().live().specific()}
 
     translations = OrderedDict()
     for language in available_languages:
-        translation = available_translations.get(locale.language_code)
+        translation = available_translations.get(language.code)
         if translation:
             translations[language] = translation
         elif homepage_fallback:
-            homepage = available_homepages.get(locale.language_code)
+            homepage = available_homepages.get(language.code)
             if homepage:
                 translations[language] = homepage
 

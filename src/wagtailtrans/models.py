@@ -169,7 +169,7 @@ class TranslatablePage(Page):
         return "{} ({})".format(super().get_admin_display_title(), self.language)
 
     def serve(self, request, *args, **kwargs):
-        activate(self.locale.language_code)
+        activate(self.language.code)
         return super().serve(request, *args, **kwargs)
 
     def move(self, target, pos=None, suppress_sync=False, *args, **kwargs):
@@ -272,10 +272,10 @@ class TranslatablePage(Page):
         if not parent:
             parent = self.get_translation_parent(language)
 
-        if self.slug == self.locale.language_code:
-            slug = locale.language_code
+        if self.slug == self.language.code:
+            slug = language.code
         else:
-            slug = '%s-%s' % (self.slug, locale.language_code)
+            slug = '%s-%s' % (self.slug, language.code)
 
         update_attrs = {
             'title': self.title,

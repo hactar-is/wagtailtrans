@@ -31,10 +31,10 @@ def create_group_permissions(group, language):
     ))
 
     collection = Collection.objects.filter(
-        name='collection-%s' % locale.language_code).first()
+        name='collection-%s' % language.code).first()
     if not collection:
         root = Collection.objects.first().get_root()
-        collection = root.add_child(name='collection-%s' % locale.language_code)
+        collection = root.add_child(name='collection-%s' % language.code)
         for perm in collection_perms:
             GroupCollectionPermission.objects.create(
                 permission=perm,
@@ -50,7 +50,7 @@ def get_or_create_language_group(language):
     :return: Group
     """
     group, created = Group.objects.get_or_create(
-        name='translator-%s' % locale.language_code)
+        name='translator-%s' % language.code)
     if created:
         create_group_permissions(group, language)
     return group

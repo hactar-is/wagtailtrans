@@ -55,7 +55,7 @@ class TranslationMiddleware(MiddlewareMixin):
             active_language = language_from_request
         elif requested_languages:
             requested_languages = requested_languages.split(',')
-            codes = tuple(locale.language_code for language in get_languages_for_site(site) if language)
+            codes = tuple(language.code for language in get_languages_for_site(site) if language)
 
             for language in requested_languages:
                 language = language.split(';')[0]
@@ -70,7 +70,7 @@ class TranslationMiddleware(MiddlewareMixin):
             default_language = Language.objects.default_for_site(site=site)
 
             if default_language:
-                active_language = default_locale.language_code
+                active_language = default_language.code
             else:
                 active_language = settings.LANGUAGE_CODE
 
