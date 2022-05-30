@@ -15,7 +15,7 @@ class TranslationView(CreateView):
         return _("Translate {} to {}".format(self.instance.get_admin_display_title(), self.language))
 
     def get_add_url(self):
-        return reverse('wagtailtrans_translations:add', args=(self.instance.id, self.language.code))
+        return reverse('wagtailtrans_translations:add', args=(self.instance.id, self.locale.language_code))
 
     def dispatch(self, request, instance_id, language_code, *args, **kwargs):
         self.language = get_object_or_404(Language, code=language_code)

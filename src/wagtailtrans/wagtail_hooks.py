@@ -81,7 +81,7 @@ if not get_wagtailtrans_setting('SYNC_TREE'):
                 force_str(language),
                 reverse('wagtailtrans_translations:add', kwargs={
                     'instance_id': page.pk,
-                    'language_code': language.code,
+                    'language_code': locale.language_code,
                 }),
                 priority=prio)
 

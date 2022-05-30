@@ -27,7 +27,7 @@ class TestTranslationMiddleware:
         assert request.LANGUAGE_CODE == 'en'
 
     def test_request_site_language(self, rf):
-        SiteLanguagesFactory(default_language__code='fr')
+        SiteLanguagesFactory(default_locale__language_code='fr')
 
         request = rf.get('/random/page/')
 

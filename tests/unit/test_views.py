@@ -71,12 +71,12 @@ class TestAddTranslationView:
         """
         request = rf.post('/', {'parent_page': self.last_page.pk})
 
-        assert self.last_page.language.code == 'en'
+        assert self.last_page.locale.language_code == 'en'
 
         with override_settings(WAGTAILTRANS_SYNC_TREE=False):
             view = TranslationView()
             view.request = request
-            response = view.dispatch(request, instance_id=self.last_page.pk, language_code=self.default_language.code)
+            response = view.dispatch(request, instance_id=self.last_page.pk, language_code=self.default_locale.language_code)
 
         assert response.status_code == 200
         assert not view.get_form().is_valid()

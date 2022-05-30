@@ -25,7 +25,7 @@ class TestWagtailAdminLanguageForm:
     def test_clean_is_default(self):
         language = LanguageFactory(is_default=True)
         form = self.form_class(instance=language, data={
-            'code': language.code,
+            'code': locale.language_code,
             'position': language.position,
             'is_default': True,
         })
@@ -35,7 +35,7 @@ class TestWagtailAdminLanguageForm:
     def test_remove_is_default(self):
         language = LanguageFactory(is_default=True)
         form = self.form_class(instance=language, data={
-            'code': language.code,
+            'code': locale.language_code,
             'position': language.position,
             'is_default': False,
         })
@@ -109,7 +109,7 @@ class TestTranslatablePage:
         self.canonical_page = self.site_tree[1]
 
     def test_create(self):
-        assert self.canonical_page.language.code == 'en'
+        assert self.canonical_page.locale.language_code == 'en'
 
     def test_serve(self, rf):
         request = rf.get('/en/')
@@ -308,7 +308,7 @@ class TestTranslatableSiteRootPage:
 
     def test_get_user_language(self, rf):
         request = rf.get('/en/')
-        sitelanguages = SiteLanguagesFactory(default_language__code='fr')
+        sitelanguages = SiteLanguagesFactory(default_locale__language_code='fr')
 
         lang = models.get_user_language(request)
         assert lang.code == 'en'

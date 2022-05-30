@@ -20,7 +20,7 @@ class SiteFactory(factory.django.DjangoModelFactory):
 
 def create_site_tree(language, site=None, *items, **homepage_kwargs):
     if not items:
-        items = ['%s homepage' % language.code, 'subpage1', 'subpage2']
+        items = ['%s homepage' % locale.language_code, 'subpage1', 'subpage2']
 
     if not site:
         site = SiteFactory()
